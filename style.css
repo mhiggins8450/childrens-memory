@@ -31,3 +31,8 @@ body {
 .block.active .inner {
   display: block;
 }
+
+.block .inner img {
+  width: 100%;
+  height: 100%;
+}
