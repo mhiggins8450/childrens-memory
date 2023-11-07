@@ -17,11 +17,12 @@ body {
   background-color: #f0f0f0;
   border: 1px solid #000;
   border-radius: 5px;
-  display: flex;
+  display: inline-block;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   margin: 10px;
+  perspective: 1000px;
 }
 
 .inner {
@@ -35,4 +36,11 @@ body {
 .block .inner img {
   width: 100%;
   height: 100%;
+  backface-visibility: hidden;
+}
+.block .inner {
+  width: 100%;
+  height: 100%;
+  transition: transform .5s;
+  transform-style: preserve-3d;
 }
