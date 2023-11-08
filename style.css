@@ -44,3 +44,11 @@ body {
   transition: transform .5s;
   transform-style: preserve-3d;
 }
+
+.match {
+  border: 5px solid green;
+}
+
+.no-match {
+  border: 5px solid red;
+}
