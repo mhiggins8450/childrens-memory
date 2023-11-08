@@ -1,14 +1,23 @@
 body {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: #f0f0f0;
+  background-color: #b9d9eb;
+}
+
+h1.game-title {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #0074D9;
 }
 
 .memory-game {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .block {
@@ -63,7 +72,7 @@ body {
   cursor: pointer;
   font-size: 16px;
   position: absolute;
-  bottom: 20px;
+  bottom: 65px;
 }
 
 #start-button:hover {
@@ -71,7 +80,7 @@ body {
 }
 
 #reset-button {
-  margin-top: 20px;
+  margin-top: 40px;
   padding: 10px 20px;
   background-color: #0074D9;
   color: #fff;
@@ -79,6 +88,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  bottom: 5px;
 }
 
 #reset-button:hover {
@@ -86,7 +96,25 @@ body {
 }
 
 .game-area {
-  width: 50%;
+  width: 40%;
   display: flex;
   flex-wrap: wrap;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.game-title-left, .game-title-right {
+  text-align: center;
+  font-size: 16px;
+}
+
+.game-title-left {
+  margin-right: 10px;
+}
+
+.game-title-right {
+  margin-left: 10px;
 }
