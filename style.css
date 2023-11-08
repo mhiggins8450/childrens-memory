@@ -52,3 +52,37 @@ body {
 .no-match {
   border: 5px solid red;
 }
+
+#start-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #0074D9;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  bottom: 20px;
+}
+
+#start-button:hover {
+  background-color: #0056b3;
+}
+
+#reset-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #0074D9;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  /* position: absolute; */
+  /* bottom: 70px; */
+}
+
+#reset-button:hover {
+  background-color: #0056b3;
+}
