@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const computerArea = document.getElementById("computer-area");
   const startButton = document.getElementById("start-button");
   const resetButton = document.getElementById("reset-button");
+  let currentPlayer = "player"; // Changed to "player"
   let shuffled = false;
   let firstBlock = null;
   let secondBlock = null;
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     playerArea.innerHTML = "";
     computerArea.innerHTML = "";
     shuffled = false;
+    currentPlayer = "player"; // Reset to player's turn
   });
 
   function createBlocks(area, numBlocks) {
@@ -60,18 +62,18 @@ document.addEventListener("DOMContentLoaded", function () {
       inner.appendChild(img);
       block.appendChild(inner);
       area.appendChild(block);
+
+      // Add a click event listener to handle turns
+      block.addEventListener("click", () => {
+        if (currentPlayer === "player") {
+          // Allow player to flip blocks during their turn
+          handleBlockClick(block);
+        }
+      });
     }
   }
 
-  function shuffleBlocks(area) {
-    const blocks = area.querySelectorAll(".block");
-    blocks.forEach((block) => {
-      block.style.order = Math.floor(Math.random() * blocks.length);
-    });
-  }
-
-  playerArea.addEventListener("click", (event) => {
-    const clickedBlock = event.target.closest(".block");
+  function handleBlockClick(clickedBlock) {
     if (!clickedBlock) return; // Ignore clicks on non-block elements
     if (clickedBlock.classList.contains("active")) return; // Ignore clicks on active blocks
 
@@ -91,14 +93,62 @@ document.addEventListener("DOMContentLoaded", function () {
         firstBlock = null;
         secondBlock = null;
       } else {
-        // If it's not a match, hide the images
+        // If it's not a match, hide the images and switch to the computer's turn
         setTimeout(() => {
           firstBlock.classList.remove("active");
           secondBlock.classList.remove("active");
           firstBlock = null;
           secondBlock = null;
+          currentPlayer = "computer"; // Switch to the computer's turn
+          simulateComputerTurn();
         }, 1000);
       }
     }
-  });
+  }
+
+  function simulateComputerTurn() {
+    // Randomly select two hidden blocks and flip them
+    // Compare and act accordingly (leave them if they match, hide them if they don't)
+    // Switch back to the player's turn when done
+    // Add delays or animations to simulate the computer's actions
+
+    setTimeout(() => {
+      const hiddenBlocks = Array.from(
+        computerArea.querySelectorAll(".block:not(.active)")
+      );
+
+      const selectedIndices = [];
+      while (selectedIndices.length < 2) {
+        const randomIndex = Math.floor(Math.random() * hiddenBlocks.length);
+        if (!selectedIndices.includes(randomIndex)) {
+          selectedIndices.push(randomIndex);
+        }
+      }
+
+      selectedIndices.forEach((index) => {
+        const block = hiddenBlocks[index];
+        block.classList.add("active");
+      });
+
+      setTimeout(() => {
+        const activeBlocks = Array.from(
+          computerArea.querySelectorAll(".block.active")
+        );
+
+        if (
+          activeBlocks[0].querySelector("img").getAttribute("src") ===
+          activeBlocks[1].querySelector("img").getAttribute("src")
+        ) {
+          // If it's a match, keep the blocks active
+          activeBlocks.forEach((block) => block.classList.remove("active"));
+        } else {
+          // If it's not a match, hide the images and switch to the player's turn
+          setTimeout(() => {
+            activeBlocks.forEach((block) => block.classList.remove("active"));
+            currentPlayer = "player";
+          }, 1000);
+        }
+      }, 1000);
+    }, 2000);
+  }
 });
