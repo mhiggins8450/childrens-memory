@@ -9,8 +9,69 @@
 <body>
     <h1 class="game-title">Children's Memory Game</h1>
     <div class="memory-game">
-        <div class="game-area" id="player-area">
-            <div class="game-area-left">Player Area</div>
+        <div class="game-area">
+            <div class="game-title-left" id="player-title">Player Area<br>Pairs: 0</div>
+            <div class="game-title-right" id="computer-title">Computer Area<br>Pairs: 0</div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/cheetah.jpg" alt="Cheetah">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/pig.jpg" alt="Deer">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/meerkats.jpg" alt="Ducks">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/cheetah.jpg" alt="Cheetah">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/ducks.jpg" alt="Cheetah">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/ducks.jpg" alt="Ducks">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/deer.jpg" alt="Deer">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/deer.jpg" alt="Deer">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/kittens.jpg" alt="Deer">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/meerkats.jpg" alt="Deer">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/pig.jpg" alt="Deer">
+                </div>
+            </div>
+            <div class="block" data-player="true">
+                <div class="inner">
+                    <img src="images/kittens.jpg" alt="Deer">
+                </div>
+            </div>
             <div class="block">
                 <div class="inner">
                     <img src="images/cheetah.jpg" alt="Cheetah">
@@ -72,70 +133,10 @@
                 </div>
             </div>
         </div>
-        <div class="separator"></div>
-        <div class="game-area" id="computer-area">
-            <div class="game-area-right">Computer Area</div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/cheetah.jpg" alt="Cheetah">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/pig.jpg" alt="Deer">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/meerkats.jpg" alt="Ducks">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/cheetah.jpg" alt="Cheetah">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/ducks.jpg" alt="Cheetah">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/ducks.jpg" alt="Ducks">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/deer.jpg" alt="Deer">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/deer.jpg" alt="Deer">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/kittens.jpg" alt="Deer">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/meerkats.jpg" alt="Deer">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/pig.jpg" alt="Deer">
-                </div>
-            </div>
-            <div class="block">
-                <div class="inner">
-                    <img src="images/kittens.jpg" alt="Deer">
-                </div>
-            </div>
-        </div>
+    </div>
+    <div class="difficulty-buttons">
+        <button id="easy-button">Easy</button>
+        <button id="hard-button">Hard</button>
     </div>
     <button id="start-button">Start</button>
     <button id="reset-button">Reset</button>
