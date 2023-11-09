@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   const gameArea = document.querySelector(".game-area");
-  const startButton = document.getElementById("start-button");
   const resetButton = document.getElementById("reset-button");
+  const easyButton = document.getElementById("easy-button");
+  const hardButton = document.getElementById("hard-button");
   let currentPlayer = "player";
   let shuffled = false;
   let firstBlock = null;
@@ -23,20 +24,28 @@ document.addEventListener("DOMContentLoaded", function () {
       "images/rabbit.jpg",
   ];
 
-  // Shuffle the images array
-  for (let i = images.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [images[i], images[j]] = [images[j], images[i]];
+  // Shuffle the unpaired images array
+  function shuffleUnpairedImages() {
+      const unpairedImages = images.slice(0, images.length / 2);
+      for (let i = unpairedImages.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [unpairedImages[i], unpairedImages[j]] = [unpairedImages[j], unpairedImages[i]];
+      }
+      return [...unpairedImages, ...unpairedImages];
   }
 
-  // Duplicate each image path to ensure they are used twice
-  const duplicatedImagePaths = [...images, ...images];
-
-  startButton.addEventListener("click", () => {
+  easyButton.addEventListener("click", () => {
       if (!shuffled) {
           gameArea.innerHTML = "";
-          createBlocks(gameArea, 24);
-          shuffleBlocks(gameArea);
+          createBlocks(gameArea, 24, true);
+          shuffled = true;
+      }
+  });
+
+  hardButton.addEventListener("click", () => {
+      if (!shuffled) {
+          gameArea.innerHTML = "";
+          createBlocks(gameArea, 24, false);
           shuffled = true;
       }
   });
@@ -50,27 +59,35 @@ document.addEventListener("DOMContentLoaded", function () {
       updatePairs();
   });
 
-  function createBlocks(area, numBlocks) {
+  function createBlocks(area, numBlocks, shuffleAll) {
+      const shuffledImages = shuffleAll ? shuffleImages(images) : shuffleUnpairedImages();
+
       for (let i = 0; i < numBlocks; i++) {
           const block = document.createElement("div");
           block.className = "block";
           const inner = document.createElement("div");
           inner.className = "inner";
           const img = document.createElement("img");
-          img.src = images[i];
-          img.alt = images[i].split("/").pop().split(".")[0];
+          img.src = shuffledImages[i];
+          img.alt = shuffledImages[i].split("/").pop().split(".")[0];
           inner.appendChild(img);
           block.appendChild(inner);
           area.appendChild(block);
 
-          // Add a click event listener to handle turns
           block.addEventListener("click", () => {
               if (currentPlayer === "player") {
-                  // Allow player to flip blocks during their turn
                   handleBlockClick(block);
               }
           });
       }
+  }
+
+  function shuffleImages(imagesArray) {
+      for (let i = imagesArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [imagesArray[i], imagesArray[j]] = [imagesArray[j], imagesArray[i]];
+      }
+      return [...imagesArray];
   }
 
   function handleBlockClick(clickedBlock) {
@@ -84,38 +101,32 @@ document.addEventListener("DOMContentLoaded", function () {
           secondBlock = clickedBlock;
           secondBlock.classList.add("active");
 
-          // Check for a match
-          if (
-              firstBlock.querySelector("img").getAttribute("src") ===
-              secondBlock.querySelector("img").getAttribute("src")
-          ) {
-              // If it's a match, keep the blocks active
-              if (firstBlock.dataset.player === "true") {
-                  playerPairs++;
-              } else {
-                  computerPairs++;
-              }
+          if (firstBlock.querySelector("img").getAttribute("src") ===
+              secondBlock.querySelector("img").getAttribute("src")) {
+                  if (firstBlock.dataset.player === "true") {
+                      playerPairs++;
+                  } else {
+                      computerPairs++;
+                  }
 
-              firstBlock = null;
-              secondBlock = null;
-
-              // Check for game completion
-              if (playerPairs + computerPairs === 12) {
-                  displayResult();
-              }
-
-              updatePairs();
-          } else {
-              // If it's not a match, hide the images and switch to the computer's turn
-              setTimeout(() => {
-                  firstBlock.classList.remove("active");
-                  secondBlock.classList.remove("active");
                   firstBlock = null;
                   secondBlock = null;
-                  currentPlayer = "computer";
-                  simulateComputerTurn();
-              }, 1000);
-          }
+
+                  if (playerPairs + computerPairs === 12) {
+                      displayResult();
+                  }
+
+                  updatePairs();
+              } else {
+                  setTimeout(() => {
+                      firstBlock.classList.remove("active");
+                      secondBlock.classList.remove("active");
+                      firstBlock = null;
+                      secondBlock = null;
+                      currentPlayer = "computer";
+                      simulateComputerTurn();
+                  }, 1000);
+              }
       }
   }
 
@@ -153,10 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       computerPairs++;
                   }
 
-                  // If it's a match, keep the blocks active
                   activeBlocks.forEach((block) => block.classList.remove("active"));
               } else {
-                  // If it's not a match, hide the images and switch to the player's turn
                   setTimeout(() => {
                       activeBlocks.forEach((block) => block.classList.remove("active"));
                       currentPlayer = "player";
@@ -164,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   }, 1000);
               }
 
-              // Check for game completion
               if (playerPairs + computerPairs === 12) {
                   displayResult();
               }
@@ -208,8 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
       playAgainButton.style.fontSize = "16px";
       playAgainButton.addEventListener("click", () => {
           gameArea.innerHTML = "";
-          createBlocks(gameArea, 24);
-          shuffleBlocks(gameArea);
+          createBlocks(gameArea, 24, true);
           shuffled = true;
           currentPlayer = "player";
           playerPairs = 0;
