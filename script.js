@@ -10,21 +10,20 @@ document.addEventListener("DOMContentLoaded", function () {
   let playerPairs = 0;
   let computerPairs = 0;
   const images = [
+    "images/cheetah.jpg",
     "images/deer.jpg",
+    "images/ducks.jpg",
+    "images/elephant.jpg",
     "images/fox.jpg",
     "images/giraffe.jpg",
     "images/hedgehog.jpg",
-    "images/polarbear.jpg",
-    "images/rabbit.jpg",
-    "images/deer.jpg",
-    "images/fox.jpg",
-    "images/giraffe.jpg",
-    "images/hedgehog.jpg",
-    "images/polarbear.jpg",
-    "images/rabbit.jpg",
+    "images/kaola.jpg",
+    "images/kittens.jpg",
+    "images/lions.jpg",
+    "images/meerkats.jpg",
+    "images/owl.jpg",
   ];
 
-  // Shuffle the unpaired images array
   function shuffleUnpairedImages() {
     const unpairedImages = images.slice(0, images.length / 2);
     for (let i = unpairedImages.length - 1; i > 0; i--) {
@@ -34,35 +33,33 @@ document.addEventListener("DOMContentLoaded", function () {
     return [...unpairedImages, ...unpairedImages];
   }
 
-  easyButton.addEventListener("click", () => {
+  function easyButtonHandler() {
     if (!shuffled) {
       gameArea.innerHTML = "";
       createBlocks(gameArea, 24, true);
       shuffled = true;
     }
-  });
+  }
 
-  hardButton.addEventListener("click", () => {
+  function hardButtonHandler() {
     if (!shuffled) {
       gameArea.innerHTML = "";
       createBlocks(gameArea, 24, true);
       shuffled = true;
     }
-  });
+  }
 
-  resetButton.addEventListener("click", () => {
+  function resetButtonHandler() {
     gameArea.innerHTML = "";
     shuffled = false;
     currentPlayer = "player";
     playerPairs = 0;
     computerPairs = 0;
     updatePairs();
-  });
+  }
 
   function createBlocks(area, numBlocks, shuffleAll) {
     const shuffledImages = shuffleAll ? shuffleImages(images) : shuffleUnpairedImages();
-
-    // Duplicate the blocks for the second set
     const duplicatedBlocks = shuffleAll ? shuffledImages : shuffleUnpairedImages();
     const allImages = shuffleAll ? [...shuffledImages, ...duplicatedBlocks] : shuffledImages;
 
@@ -111,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
           playerPairs++;
         } else {
           computerPairs++;
+          setTimeout(simulateComputerTurn, 1000);
         }
 
         firstBlock = null;
@@ -128,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
           firstBlock = null;
           secondBlock = null;
           currentPlayer = "computer";
-          simulateComputerTurn();
+          setTimeout(simulateComputerTurn, 1000);
         }, 1000);
       }
     }
@@ -206,6 +204,8 @@ document.addEventListener("DOMContentLoaded", function () {
     message.style.marginTop = "20px";
     gameArea.appendChild(message);
 
+    currentPlayer = "player";
+
     const playAgainButton = document.createElement("button");
     playAgainButton.innerText = "Play Again";
     playAgainButton.style.marginTop = "10px";
@@ -228,4 +228,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     gameArea.appendChild(playAgainButton);
   }
+
+  easyButton.addEventListener("click", easyButtonHandler);
+  hardButton.addEventListener("click", hardButtonHandler);
+  resetButton.addEventListener("click", resetButtonHandler);
+
+  // Initial setup for the game
+  createBlocks(gameArea, 24, false);
 });
