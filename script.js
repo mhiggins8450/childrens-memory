@@ -167,11 +167,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
               activeBlocks.forEach((block) => block.classList.remove("active"));
           } else {
-              setTimeout(() => {
-                  activeBlocks.forEach((block) => block.classList.remove("active"));
-                  currentPlayer = "player";
-                  updatePairs();
-              }, 1000);
+            setTimeout(() => {
+              activeBlocks.forEach((block) => {
+                  if (!block.dataset.player) {
+                      block.classList.remove("active");
+                  }
+              });
+              currentPlayer = "player";
+              updatePairs();
+          }, 1000);
           }
 
           if (playerPairs + computerPairs === 12) {
