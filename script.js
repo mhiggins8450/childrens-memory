@@ -65,10 +65,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function createBlocks(area, numBlocks, shuffleAll) {
     const shuffledImages = shuffleAll
-      ? shuffleImages(images)
+      ? shuffledImages(images)
       : shuffleUnpairedImages();
     const duplicatedBlocks = shuffleAll
-      ? shuffleImages(shuffledImages)
+      ? shuffledImages(shuffledImages)
       : shuffleUnpairedImages();
     const allImages = shuffleAll
       ? [...shuffledImages, ...duplicatedBlocks]
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const inner = document.createElement("div");
       inner.className = "inner";
       const img = document.createElement("img");
-      img.src = allImages[i] || "path/to/default-image.jpg";
+      img.src = allImages[i] || "images/giraffe.jpg";
       img.alt = allImages[i] ? allImages[i].split("/").pop().split(".")[0] : "Alt Text";
       inner.appendChild(img);
       block.appendChild(inner);
@@ -185,9 +185,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function updatePairs() {
     const playerTitle = document.getElementById("player-title");
     const computerTitle = document.getElementById("computer-title");
-    playerTitle.innerHTML = `Player Area<br>Pairs: ${playerPairs}`;
-    computerTitle.innerHTML = `Computer Area<br>Pairs: ${computerPairs}`;
-  }
+
+    if (playerTitle && computerTitle) {
+        playerTitle.innerHTML = `Player Area<br>Pairs: ${playerPairs}`;
+        computerTitle.innerHTML = `Computer Area<br>Pairs: ${computerPairs}`;
+    }
+}
+
 
   function displayResult() {
     let result = "";
