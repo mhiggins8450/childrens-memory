@@ -133,56 +133,50 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function simulateComputerTurn() {
-      const hiddenBlocks = Array.from(
-          gameArea.querySelectorAll(".block:not(.active)")
-      );
-
-      const selectedIndices = [];
-      while (selectedIndices.length < 2) {
-          const randomIndex = Math.floor(Math.random() * hiddenBlocks.length);
-          if (!selectedIndices.includes(randomIndex)) {
-              selectedIndices.push(randomIndex);
-          }
+    const hiddenBlocks = Array.from(
+      gameArea.querySelectorAll(".block:not(.active)")
+    );
+  
+    const selectedIndices = [];
+    while (selectedIndices.length < 2) {
+      const randomIndex = Math.floor(Math.random() * hiddenBlocks.length);
+      if (!selectedIndices.includes(randomIndex)) {
+        selectedIndices.push(randomIndex);
       }
-
-      selectedIndices.forEach((index) => {
-          const block = hiddenBlocks[index];
-          block.classList.add("active");
-      });
-
-      setTimeout(() => {
-          const activeBlocks = Array.from(
-              gameArea.querySelectorAll(".block.active")
-          );
-
-          if (
-              activeBlocks[0].querySelector("img").getAttribute("src") ===
-              activeBlocks[1].querySelector("img").getAttribute("src")
-          ) {
-              if (activeBlocks[0].dataset.player === "true") {
-                  playerPairs++;
-              } else {
-                  computerPairs++;
-              }
-
-              activeBlocks.forEach((block) => block.classList.remove("active"));
-          } else {
-            setTimeout(() => {
-              activeBlocks.forEach((block) => {
-                  if (!block.dataset.player) {
-                      block.classList.remove("active");
-                  }
-              });
-              currentPlayer = "player";
-              updatePairs();
-          }, 1000);
+    }
+  
+    selectedIndices.forEach((index) => {
+      const block = hiddenBlocks[index];
+      block.classList.add("active");
+    });
+  
+    setTimeout(() => {
+      const activeBlocks = Array.from(
+        gameArea.querySelectorAll(".block.active")
+      );
+  
+      const isPair =
+        activeBlocks[0].querySelector("img").getAttribute("src") ===
+        activeBlocks[1].querySelector("img").getAttribute("src");
+  
+      if (!isPair) {
+        // Only remove "active" class for computer's blocks
+        activeBlocks.forEach((block) => {
+          if (block.dataset.player !== "true") {
+            block.classList.remove("active");
           }
-
-          if (playerPairs + computerPairs === 12) {
-              displayResult();
-          }
-      }, 1000);
+        });
+      }
+  
+      currentPlayer = "player";
+      updatePairs();
+  
+      if (playerPairs + computerPairs === 12) {
+        displayResult();
+      }
+    }, 1000);
   }
+  
 
   function updatePairs() {
       const playerTitle = document.getElementById("player-title");
