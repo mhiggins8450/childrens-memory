@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
       "images/rabbit.jpg",
   ];
 
+  let firstBlock = null;
+  let secondBlock = null;
+
   function shuffle(array) {
       const clonedArray = [...array];
       for (let index = clonedArray.length - 1; index > 0; index--) {
@@ -47,6 +50,29 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!clickedBlock || clickedBlock.classList.contains("active")) return;
 
       clickedBlock.classList.add("active");
+
+      if (!firstBlock) {
+          firstBlock = clickedBlock;
+      } else {
+          secondBlock = clickedBlock;
+
+          const firstImage = firstBlock.querySelector("img").getAttribute("src");
+          const secondImage = secondBlock.querySelector("img").getAttribute("src");
+
+          if (firstImage === secondImage) {
+              // Matched, leave the blocks turned over
+              firstBlock = null;
+              secondBlock = null;
+          } else {
+              // Not a match, turn the blocks back over after a short delay
+              setTimeout(() => {
+                  firstBlock.classList.remove("active");
+                  secondBlock.classList.remove("active");
+                  firstBlock = null;
+                  secondBlock = null;
+              }, 1000);
+          }
+      }
   }
 
   createBlocks(gameArea, 16);
