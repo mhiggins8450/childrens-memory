@@ -10,61 +10,69 @@ document.addEventListener("DOMContentLoaded", function () {
   let playerPairs = 0;
   let computerPairs = 0;
   const images = [
+    "images/cheetah.jpg",
     "images/deer.jpg",
+    "images/ducks.jpg",
+    "images/elephant.jpg",
     "images/fox.jpg",
     "images/giraffe.jpg",
     "images/hedgehog.jpg",
-    "images/polarbear.jpg",
-    "images/rabbit.jpg",
-    "images/deer.jpg",
-    "images/fox.jpg",
-    "images/giraffe.jpg",
-    "images/hedgehog.jpg",
-    "images/polarbear.jpg",
-    "images/rabbit.jpg",
+    "images/kaola.jpg",
+    "images/kittens.jpg",
+    "images/lions.jpg",
+    "images/meerkats.jpg",
+    "images/owl.jpg",
   ];
 
-  // Shuffle the unpaired images array
   function shuffleUnpairedImages() {
     const unpairedImages = images.slice(0, images.length / 2);
     for (let i = unpairedImages.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [unpairedImages[i], unpairedImages[j]] = [unpairedImages[j], unpairedImages[i]];
+      [unpairedImages[i], unpairedImages[j]] = [
+        unpairedImages[j],
+        unpairedImages[i],
+      ];
     }
     return [...unpairedImages, ...unpairedImages];
   }
 
-  easyButton.addEventListener("click", () => {
-    if (!shuffled) {
-      gameArea.innerHTML = "";
-      createBlocks(gameArea, 24, true);
-      shuffled = true;
-    }
-  });
+  function startNewGame() {
+    gameArea.innerHTML = "";
+    createBlocks(gameArea, 24, true);
+    shuffled = true;
+  }
 
-  hardButton.addEventListener("click", () => {
+  function easyButtonHandler() {
     if (!shuffled) {
-      gameArea.innerHTML = "";
-      createBlocks(gameArea, 24, true);
-      shuffled = true;
+      startNewGame();
     }
-  });
+  }
 
-  resetButton.addEventListener("click", () => {
+  function hardButtonHandler() {
+    if (!shuffled) {
+      startNewGame();
+    }
+  }
+
+  function resetButtonHandler() {
     gameArea.innerHTML = "";
     shuffled = false;
     currentPlayer = "player";
     playerPairs = 0;
     computerPairs = 0;
     updatePairs();
-  });
+  }
 
   function createBlocks(area, numBlocks, shuffleAll) {
-    const shuffledImages = shuffleAll ? shuffleImages(images) : shuffleUnpairedImages();
-
-    // Duplicate the blocks for the second set
-    const duplicatedBlocks = shuffleAll ? shuffledImages : shuffleUnpairedImages();
-    const allImages = shuffleAll ? [...shuffledImages, ...duplicatedBlocks] : shuffledImages;
+    const shuffledImages = shuffleAll
+      ? shuffleImages(images)
+      : shuffleUnpairedImages();
+    const duplicatedBlocks = shuffleAll
+      ? shuffleImages(shuffledImages)
+      : shuffleUnpairedImages();
+    const allImages = shuffleAll
+      ? [...shuffledImages, ...duplicatedBlocks]
+      : shuffleUnpairedImages();
 
     for (let i = 0; i < numBlocks; i++) {
       const block = document.createElement("div");
@@ -72,8 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const inner = document.createElement("div");
       inner.className = "inner";
       const img = document.createElement("img");
-      img.src = allImages[i];
-      img.alt = allImages[i].split("/").pop().split(".")[0];
+      img.src = allImages[i] || "path/to/default-image.jpg";
+      img.alt = allImages[i] ? allImages[i].split("/").pop().split(".")[0] : "Alt Text";
       inner.appendChild(img);
       block.appendChild(inner);
       area.appendChild(block);
@@ -84,14 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
-  }
-
-  function shuffleImages(imagesArray) {
-    for (let i = imagesArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [imagesArray[i], imagesArray[j]] = [imagesArray[j], imagesArray[i]];
-    }
-    return [...imagesArray];
   }
 
   function handleBlockClick(clickedBlock) {
@@ -105,12 +105,15 @@ document.addEventListener("DOMContentLoaded", function () {
       secondBlock = clickedBlock;
       secondBlock.classList.add("active");
 
-      if (firstBlock.querySelector("img").getAttribute("src") ===
-        secondBlock.querySelector("img").getAttribute("src")) {
+      if (
+        firstBlock.querySelector("img").getAttribute("src") ===
+        secondBlock.querySelector("img").getAttribute("src")
+      ) {
         if (firstBlock.dataset.player === "true") {
           playerPairs++;
         } else {
           computerPairs++;
+          setTimeout(simulateComputerTurn, 1000);
         }
 
         firstBlock = null;
@@ -128,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
           firstBlock = null;
           secondBlock = null;
           currentPlayer = "computer";
-          simulateComputerTurn();
+          setTimeout(simulateComputerTurn, 1000);
         }, 1000);
       }
     }
@@ -157,24 +160,21 @@ document.addEventListener("DOMContentLoaded", function () {
         gameArea.querySelectorAll(".block.active")
       );
 
-      if (
+      const isPair =
         activeBlocks[0].querySelector("img").getAttribute("src") ===
-        activeBlocks[1].querySelector("img").getAttribute("src")
-      ) {
-        if (activeBlocks[0].dataset.player === "true") {
-          playerPairs++;
-        } else {
-          computerPairs++;
-        }
+        activeBlocks[1].querySelector("img").getAttribute("src");
 
-        activeBlocks.forEach((block) => block.classList.remove("active"));
-      } else {
-        setTimeout(() => {
-          activeBlocks.forEach((block) => block.classList.remove("active"));
-          currentPlayer = "player";
-          updatePairs();
-        }, 1000);
+      if (!isPair) {
+        // Only remove "active" class for computer's blocks
+        activeBlocks.forEach((block) => {
+          if (block.dataset.player !== "true") {
+            block.classList.remove("active");
+          }
+        });
       }
+
+      currentPlayer = "player";
+      updatePairs();
 
       if (playerPairs + computerPairs === 12) {
         displayResult();
@@ -194,38 +194,21 @@ document.addEventListener("DOMContentLoaded", function () {
     if (playerPairs > computerPairs) {
       result = "You Win!";
     } else if (computerPairs > playerPairs) {
-      result = "The Computer Wins!";
+      result = "Computer Wins!";
     } else {
       result = "It's a Tie!";
     }
 
-    const message = document.createElement("div");
-    message.innerText = result;
-    message.style.fontSize = "24px";
-    message.style.fontWeight = "bold";
-    message.style.marginTop = "20px";
-    gameArea.appendChild(message);
-
-    const playAgainButton = document.createElement("button");
-    playAgainButton.innerText = "Play Again";
-    playAgainButton.style.marginTop = "10px";
-    playAgainButton.style.padding = "10px 20px";
-    playAgainButton.style.backgroundColor = "#0074D9";
-    playAgainButton.style.color = "#fff";
-    playAgainButton.style.border = "none";
-    playAgainButton.style.borderRadius = "5px";
-    playAgainButton.style.cursor = "pointer";
-    playAgainButton.style.fontSize = "16px";
-    playAgainButton.addEventListener("click", () => {
-      gameArea.innerHTML = "";
-      createBlocks(gameArea, 24, shuffled);
-      currentPlayer = "player";
-      playerPairs = 0;
-      computerPairs = 0;
-      updatePairs();
-      message.remove();
-      playAgainButton.remove();
-    });
-    gameArea.appendChild(playAgainButton);
+    setTimeout(() => {
+      alert(result);
+      resetButtonHandler();
+    }, 1000);
   }
+
+  easyButton.addEventListener("click", easyButtonHandler);
+  hardButton.addEventListener("click", hardButtonHandler);
+  resetButton.addEventListener("click", resetButtonHandler);
+
+  // Initial setup for the game
+  createBlocks(gameArea, 24, false);
 });
