@@ -58,6 +58,10 @@ h1.game-title {
   font-size: 18px;
   font-weight: bold;
   margin-top: 20px;
+  background-color: #0074D9;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
 }
 /* 
 .result-message {
