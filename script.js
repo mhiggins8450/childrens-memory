@@ -1,9 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
   const gameArea = document.querySelector(".game-area");
-  const pairingCount = document.getElementById("pairing-count");
+  const pairingCount = document.createElement("div");
+  pairingCount.className = "pairing-count";
+  gameArea.appendChild(pairingCount);
+
   let firstBlock = null;
   let secondBlock = null;
   let pairsFound = 0;
+  let player1Pairs = 0;
+  let player2Pairs = 0;
 
   const images = [
     "images/elephant.jpg",
@@ -62,13 +67,20 @@ document.addEventListener("DOMContentLoaded", function () {
     if (firstImage.src === secondImage.src) {
       // It's a pair
       pairsFound++;
-      pairingCount.innerHTML = `Pairs Found: ${pairsFound}`;
+      updatePairingCount();
+      updatePlayerPairs(); // Update player-specific pairs
       firstBlock = null;
       secondBlock = null;
 
-      // Check for win-state
+      // Check for win-state or tie-state
       if (pairsFound === 8) {
-        displayWinMessage();
+        if (player1Pairs > player2Pairs) {
+          displayWinMessage("Player 1");
+        } else if (player2Pairs > player1Pairs) {
+          displayWinMessage("Player 2");
+        } else {
+          displayTieMessage();
+        }
       }
     } else {
       // Not a pair
@@ -85,8 +97,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function displayWinMessage() {
-    alert("You Win!");
+  function displayWinMessage(winner) {
+    alert(`${winner} Wins!`);
+    resetGame();
+  }
+
+  function displayTieMessage() {
+    alert("It's a Tie!");
+    resetGame();
+  }
+
+  function updatePairingCount() {
+    pairingCount.innerHTML = `Pairs: ${pairsFound}`;
+  }
+
+  function updatePlayerPairs() {
+    if (firstBlock && secondBlock) {
+      const currentPlayer = firstBlock.index < 8 ? "player1" : "player2";
+      if (currentPlayer === "player1") {
+        player1Pairs++;
+      } else {
+        player2Pairs++;
+      }
+    }
+  }
+
+  function resetGame() {
+    gameArea.innerHTML = "";
+    pairsFound = 0;
+    player1Pairs = 0;
+    player2Pairs = 0;
+    createBlocks();
   }
 
   createBlocks();
