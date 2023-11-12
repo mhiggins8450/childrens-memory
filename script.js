@@ -114,7 +114,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function switchPlayer() {
     currentPlayer = currentPlayer === "player1" ? "player2" : "player1";
+    updateActivePlayerIndicator();
   }
+
+  function updateActivePlayerIndicator() {
+    const player1Indicator = document.getElementById("player1");
+    const player2Indicator = document.getElementById("player2");
+
+    player1Indicator.classList.remove("active-player");
+    player2Indicator.classList.remove("active-player");
+
+    if (currentPlayer === "player1") {
+        player1Indicator.classList.add("active-player");
+    } else {
+        player2Indicator.classList.add("active-player");
+    }
+}
 
   function updatePairs() {
     const player1Title = document.getElementById("player1");
