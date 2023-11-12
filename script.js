@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const gameArea = document.querySelector(".game-area");
+  const winMessage = document.querySelector(".win-message");
   const images = [
       "images/elephant.jpg",
       "images/polarbear.jpg",
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "images/giraffe.jpg",
       "images/kittens.jpg",
       "images/fox.jpg",
-      "images/rabbit.jpg",
+      "images/rabbit.jpg"
   ];
 
   let firstBlock = null;
@@ -16,18 +17,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function shuffle(array) {
       const clonedArray = [...array];
+
       for (let index = clonedArray.length - 1; index > 0; index--) {
           const randomIndex = Math.floor(Math.random() * (index + 1));
           const original = clonedArray[index];
+
           clonedArray[index] = clonedArray[randomIndex];
           clonedArray[randomIndex] = original;
       }
+
       return clonedArray;
   }
 
   function createBlocks(area, numBlocks) {
       const shuffledImages = shuffle(images);
-      const duplicatedBlocks = shuffle(images.slice()); // duplicate the array
+      const duplicatedBlocks = shuffledImages.slice();
       const allImages = [...shuffledImages, ...duplicatedBlocks];
 
       for (let i = 0; i < numBlocks; i++) {
@@ -42,29 +46,36 @@ document.addEventListener("DOMContentLoaded", function () {
           block.appendChild(inner);
           area.appendChild(block);
 
-          block.addEventListener("click", () => handleBlockClick(block));
+          block.addEventListener("click", () => {
+              handleBlockClick(block);
+          });
       }
   }
 
   function handleBlockClick(clickedBlock) {
       if (!clickedBlock || clickedBlock.classList.contains("active")) return;
 
-      clickedBlock.classList.add("active");
+      const clickedImage = clickedBlock.querySelector("img").getAttribute("src");
 
       if (!firstBlock) {
           firstBlock = clickedBlock;
-      } else {
+          firstBlock.classList.add("active");
+      } else if (!secondBlock) {
           secondBlock = clickedBlock;
+          secondBlock.classList.add("active");
 
           const firstImage = firstBlock.querySelector("img").getAttribute("src");
           const secondImage = secondBlock.querySelector("img").getAttribute("src");
 
           if (firstImage === secondImage) {
-              // Matched, leave the blocks turned over
               firstBlock = null;
               secondBlock = null;
+
+              // Check for win-state
+              if (document.querySelectorAll(".block:not(.active)").length === 0) {
+                  displayWinMessage();
+              }
           } else {
-              // Not a match, turn the blocks back over after a short delay
               setTimeout(() => {
                   firstBlock.classList.remove("active");
                   secondBlock.classList.remove("active");
@@ -72,6 +83,13 @@ document.addEventListener("DOMContentLoaded", function () {
                   secondBlock = null;
               }, 1000);
           }
+      }
+  }
+
+  function displayWinMessage() {
+      if (winMessage) {
+          winMessage.innerText = "You Win!";
+          winMessage.style.display = "block";
       }
   }
 
