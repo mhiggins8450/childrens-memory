@@ -54,7 +54,7 @@ h1.game-title {
   transform-style: preserve-3d;
 }
 
-.pairing-count {
+/* .pairing-count {
   font-size: 18px;
   font-weight: bold;
   margin-top: 20px;
@@ -62,5 +62,19 @@ h1.game-title {
   color: #fff;
   padding: 10px;
   border-radius: 5px;
+} */
+
+.players {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  background-color: #0074D9;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
 }
 
+.player {
+  font-size: 16px;
+  font-weight: bold;
+}
