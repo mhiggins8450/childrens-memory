@@ -28,6 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
           const inner = document.createElement("div");
           inner.className = "inner";
           const img = document.createElement("img");
+          // Set the image source here
+          img.src = images[i];
+          img.alt = images[i].split("/").pop().split(".")[0];
           inner.appendChild(img);
           block.appendChild(inner);
           area.appendChild(block);
