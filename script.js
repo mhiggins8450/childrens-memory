@@ -1,81 +1,91 @@
 document.addEventListener("DOMContentLoaded", function () {
   const gameArea = document.querySelector(".game-area");
-  let currentPlayer = "player";
   let firstBlock = null;
   let secondBlock = null;
   let pairsFound = 0;
 
   const images = [
-      "images/elephant.jpg",
-      "images/polarbear.jpg",
-      "images/zebra.jpg",
-      "images/horse.jpg",
-      "images/giraffe.jpg",
-      "images/kittens.jpg",
-      "images/fox.jpg",
-      "images/rabbit.jpg",
+    "images/elephant.jpg",
+    "images/polarbear.jpg",
+    "images/zebra.jpg",
+    "images/horse.jpg",
+    "images/giraffe.jpg",
+    "images/kittens.jpg",
+    "images/fox.jpg",
+    "images/rabbit.jpg",
   ];
 
   function shuffleImages() {
-      const shuffledImages = [...images, ...images].sort(() => Math.random() - 0.5);
-      return shuffledImages;
+    return [...images, ...images].sort(() => Math.random() - 0.5);
   }
 
-  function createBlocks(area, images) {
-      for (let i = 0; i < images.length; i++) {
-          const block = document.createElement("div");
-          block.className = "block";
-          const inner = document.createElement("div");
-          inner.className = "inner";
-          const img = document.createElement("img");
-          // Set the image source here
-          img.src = images[i];
-          img.alt = images[i].split("/").pop().split(".")[0];
-          inner.appendChild(img);
-          block.appendChild(inner);
-          area.appendChild(block);
+  function createBlocks() {
+    const shuffledImages = shuffleImages();
 
-          block.addEventListener("click", () => {
-              if (currentPlayer === "player" && !block.classList.contains("active")) {
-                  handleBlockClick(block);
-              }
-          });
-      }
+    shuffledImages.forEach((image, index) => {
+      const block = document.createElement("div");
+      block.className = "block";
+      const inner = document.createElement("div");
+      inner.className = "inner";
+      const img = document.createElement("img");
+      img.src = image;
+      img.alt = "Card";
+      inner.appendChild(img);
+      block.appendChild(inner);
+      gameArea.appendChild(block);
+
+      block.addEventListener("click", () => handleBlockClick(block, index));
+    });
   }
 
-  function handleBlockClick(clickedBlock) {
+  function handleBlockClick(clickedBlock, index) {
+    if (!clickedBlock.classList.contains("active") && firstBlock === null) {
       clickedBlock.classList.add("active");
+      firstBlock = { block: clickedBlock, index };
+    } else if (!clickedBlock.classList.contains("active") && secondBlock === null) {
+      clickedBlock.classList.add("active");
+      secondBlock = { block: clickedBlock, index };
 
-      if (!firstBlock) {
-          firstBlock = clickedBlock;
-      } else {
-          secondBlock = clickedBlock;
+      checkForPair();
+    }
+  }
 
-          const firstImg = firstBlock.querySelector("img").src;
-          const secondImg = secondBlock.querySelector("img").src;
-
-          if (firstImg === secondImg) {
-              pairsFound++;
-              if (pairsFound === images.length / 2) {
-                  displayWinMessage();
-              }
-          } else {
-              setTimeout(() => {
-                  firstBlock.classList.remove("active");
-                  secondBlock.classList.remove("active");
-              }, 1000);
-          }
-
-          currentPlayer = "player";
-          firstBlock = null;
-          secondBlock = null;
+  function checkForPair() {
+    if (!firstBlock || !secondBlock) {
+      return;
+    }
+  
+    const firstImage = firstBlock.block.querySelector("img");
+    const secondImage = secondBlock.block.querySelector("img");
+  
+    if (firstImage.src === secondImage.src) {
+      // It's a pair
+      pairsFound++;
+      firstBlock = null;
+      secondBlock = null;
+  
+      // Check for win-state
+      if (pairsFound === 8) {
+        displayWinMessage();
       }
+    } else {
+      // Not a pair
+      setTimeout(() => {
+        if (firstBlock) {
+          firstBlock.block.classList.remove("active");
+        }
+        if (secondBlock) {
+          secondBlock.block.classList.remove("active");
+        }
+        firstBlock = null;
+        secondBlock = null;
+      }, 1000);
+    }
   }
-
+ 
   function displayWinMessage() {
-      alert("You Win!");
+    alert("You Win!");
   }
 
-  const shuffledImages = shuffleImages();
-  createBlocks(gameArea, shuffledImages);
+  createBlocks();
 });
