@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const gameArea = document.querySelector(".game-area");
+  const pairingCount = document.getElementById("pairing-count");
   let firstBlock = null;
   let secondBlock = null;
   let pairsFound = 0;
@@ -54,16 +55,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!firstBlock || !secondBlock) {
       return;
     }
-  
+
     const firstImage = firstBlock.block.querySelector("img");
     const secondImage = secondBlock.block.querySelector("img");
-  
+
     if (firstImage.src === secondImage.src) {
       // It's a pair
       pairsFound++;
+      pairingCount.innerHTML = `Pairs Found: ${pairsFound}`;
       firstBlock = null;
       secondBlock = null;
-  
+
       // Check for win-state
       if (pairsFound === 8) {
         displayWinMessage();
@@ -82,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 1000);
     }
   }
- 
+
   function displayWinMessage() {
     alert("You Win!");
   }
