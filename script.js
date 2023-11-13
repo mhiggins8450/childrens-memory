@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Get references to various elements in the HTML document
   const gameArea = document.querySelector(".game-area");
-  const pairingCount = document.getElementById("pairing-count");
+  // const pairingCount = document.getElementById("pairing-count");
   const resultMessage = document.getElementById("result-message");
   const player1Score = document.getElementById("player1");
   const player2Score = document.getElementById("player2");

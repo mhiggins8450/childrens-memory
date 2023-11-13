@@ -46,8 +46,8 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
 12.	Logical Operators
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#logical_operators
 
-Contributing
+## Contributing
 Michael Higgins as part of Mod I in Per Scholas Software Engineering Bootcamp
 
-License
+## License
 N/A
