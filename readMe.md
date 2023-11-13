@@ -1,14 +1,14 @@
 # Memory Game
 
-A simple memory game for kids. Match the pairs of images to win!
+A simple but fun two player memory game for kids of all ages! Match more pairs than your opponent to win!
 
 ## How to Play
 
 - Click on a square to reveal an image.
 - Click on a second square to see if there is a match.
-- If there is a match, the images remain visible and are outlined in green.
-- If there is not a match, the images are briefly outlined in red and then covered.
-- Match all pairs to win the game!
+- If there is a match, the images remain visible.
+- If there is not a match, the images are covered.
+- Match more pairs than your opponent to win!
 - Open index.html in your web browser to start playing.
 
 ## Preview
@@ -17,10 +17,10 @@ A simple memory game for kids. Match the pairs of images to win!
 
 ## Installation
 
-[Will add more as the game finalizes]
+Nothing to install. Download the repo content to your local computer. Open index.html in your browser to start playing.
 
 Contributing
-[Will add more as the game finalizes]
+Michael Higgins as part of Mod I in Per Scholas Software Engineering Bootcamp
 
 License
-[Not sure this is needed]
+N/A
