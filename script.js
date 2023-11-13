@@ -14,6 +14,19 @@ document.addEventListener("DOMContentLoaded", function () {
   let player1Pairs = 0;
   let player2Pairs = 0;
 
+    // Include the confetti script directly
+    const confettiScript = document.createElement("script");
+    confettiScript.src = "https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js";
+    document.head.appendChild(confettiScript);
+  
+    confettiScript.onload = function () {
+      initializeConfetti();
+    };
+
+    function initializeConfetti() {
+      confetti.create();
+    }
+
   // Array of image sources for the memory game
   const images = [
     "images/elephant.jpg",
@@ -130,6 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to display a win message
   function displayWinMessage(winner) {
     alert(`${winner} Wins!`);
+    // Trigger confetti animation
+    confetti();
     // Reset the game after displaying the message
     resetGame();
   }
