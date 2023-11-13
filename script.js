@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "images/kittens.jpg",
     "images/fox.jpg",
     "images/rabbit.jpg",
+    "images/sealion.jpg"
   ];
 
   // Function to shuffle the images for a random game layout
@@ -94,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
       secondBlock = null;
 
       // Check for win-state or tie-state
-      if (player1Pairs + player2Pairs === 8) {
+      if (player1Pairs + player2Pairs === 9) {
         if (player1Pairs > player2Pairs) {
           // Display a win message for Player 1
           displayWinMessage("Player 1");
