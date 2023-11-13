@@ -19,6 +19,33 @@ https://tinyurl.com/3d3hb3mr
 
 Nothing to install. Download the repo content to your local computer. Open index.html in your browser to start playing.
 
+## Reference Sources
+
+1.	Event Listener and DOMContentLoaded
+https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
+2.	Selecting Elements with querySelector
+https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+3.	Arrays and Spread Operator
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+4.	Creating Elements with createElement
+https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+5.	Adding Event Listeners
+https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+6.	setTimeout Function
+https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
+7.	Conditional (Ternary) Operator
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+8.	Updating HTML Content with innerHTML
+https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
+9.	Displaying Browser Alerts with alert
+https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
+10.	Removing and Adding Classes
+https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+11.	Functions and Function Declarations
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
+12.	Logical Operators
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#logical_operators
+
 Contributing
 Michael Higgins as part of Mod I in Per Scholas Software Engineering Bootcamp
 
