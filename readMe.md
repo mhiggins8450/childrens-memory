@@ -13,7 +13,7 @@ A simple but fun two player memory game for kids of all ages! Match more pairs t
 
 ## Preview
 
-[WIll make gif of completed game play]
+https://ufile.io/2i0ki8cr
 
 ## Installation
 
